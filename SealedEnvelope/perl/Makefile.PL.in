@@ -1,0 +1,11 @@
+use ExtUtils::MakeMaker;
+WriteMakefile(
+	      'CC'                => 'g++',
+	      'LD'                => 'g++',
+	      'PERL'              => '@PERL@',
+	      'NAME'              => 'SealedEnvelope',
+	      'VERSION'           => '1.00',
+	      'OBJECT'            => 'SealedEnvelope_wrap.o ../.libs/libSealedEnvelope@SHRLIB_EXT@',
+	      'INC'               => '-I /usr/kerberos/include -I $(PERLPREFIX)/include ',
+	      'DEFINE'            => '-D__SWIG__ -DPACKAGE_VERSION=\"1.0.1\"',
+	      );

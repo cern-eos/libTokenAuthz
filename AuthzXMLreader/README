@@ -1,0 +1,26 @@
+	Used to evaluate catalogue slices in xml format
+	
+XML Example:
+
+<?xml version="1.0" encoding="iso-8859-1"?>
+<authz>
+  <file>
+    <lfn>/alice/cern.ch/</lfn>
+    <turl>/tmp/test</turl>
+    <access>read</access>
+    <guid>sldfkjsldkfjslkdflskdjf</guid>
+    <permissions>644</permissions>
+    <certsubject>CN=test,OU=test</certsubject>
+    <size>=123123</size>
+  </file>
+
+  <file>
+    <lfn>/alice/cern.ch/a</lfn>
+    <turl>/tmp/test/asdf</turl>
+    <access>read</access>
+    <guid>sldfkjsldkfjslkdflskdjf</guid>
+    <permissions>644</permissions>
+    <certsubject>CN=test,OU=test</certsubject>
+    <size>=123123</size>
+  </file>
+</authz>

@@ -1,0 +1,22 @@
+#####################################################################
+# Key section
+#####################################################################
+
+KEY VO:ALICE  PRIVKEY:key.pem PUBKEY:pkey.pem
+KEY VO:CMS    PRIVKEY:<pkey>  PUBKEY:<pubkey>
+KEY VO:*      PRIVKEY:<pkey>  PUBKEY:<pubkey>
+
+######################################################################
+# Namespace Export Section
+# PATH needs to be terminated with /
+# ACCESS can be ALLOW or DENY
+
+EXPORT PATH:/tmp/alice/ VO:ALICE ACCESS:ALLOW CERT:*
+EXPORT PATH:/tmp/cms/   VO:CMS   ACCESS:DENY  CERT:*
+EXPORT PATH:/castor/    VO:*     ACCESS:ALLOW CERT:*
+
+######################################################################
+# AUTHZ RULES Section
+RULE PATH:/tmp/ AUTHZ:write|delete|write-once| NOAUTHZ:read| VO:ALICE|CMS| CERT:IGNORE
+RULE PATH:/tmp/ AUTHZ:read| NOAUTHZ:| VO:ALICE|CMS| CERT:IGNORE
+

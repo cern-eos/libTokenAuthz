@@ -1,0 +1,53 @@
+- use 'configure --perfix=<> --with-perl=<perl> --with-swig=<swig>' to configure properly
+- to compile and install the perlmodule type:
+	make perlmodule
+	make perlmodule-install
+
+
+
+To test with xrootd:
+
+	Execute:	./xrdauthz.pl
+		-> 	this run's the test suite and installs two SSL keys under
+			$HOME/.authz/xrootd/
+		->	it creates an xrootd authorization file, which exports the / namespace
+			$HOME/.authz/TkAuth.Authorization
+
+	
+				
+	Start an xroot using the XrdTokenAuthzlib (xrootd -c /tmp/xrootd.cnf)
+	xrootd.cnf:
+		
+			xrootd.export /
+			xrootd.fslib <path-to-library>/libXrdTokenAuthzOfs.so
+			ofs.trace all debug
+
+	!!! libTokenAuthz must be in the LD_LIBRARY_PATH !!!
+
+
+	Read Test:
+			xrdauthz-read.pl <host:port> <lfn> <pfn> <localfile>
+
+		example: - your xrootd run's on localhost:1094
+			 - you want to read the pfn=/tmp/testfile
+			 - you want to use the logical name lfn="/catalogue/testfile" 
+			 - you want to copy it to /tmp/testfile.local
+
+			xrdauthz-read.pl localhost /catalogue/testfile /tmp/testfile /tmp/testfile.local
+
+
+			-> in the xrootd log you should a lot of debug information from the parsing+decoding of the envelope
+
+
+	Write Test:
+			xrdauthz-write.pl <host:port> <lfn> <pfn> <localfile>
+		
+		example: - your xrootd run's on localhost:1094
+			 - you want to write to the pfn=/tmp/newfile ( it has not to exist!)
+			 - you want to use the logical name lfn="/catalogue/newfile"
+			 - you want to upload the local file /tmp/file2store
+
+			xrdauthz-write.pl localhost /catalogue/newfile /tmp/newfile /tmp/file2store
+
+			!!!! this script uses the write-once flag, so the destination file has not to exist!
+
