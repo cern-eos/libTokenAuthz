@@ -8,20 +8,22 @@ include_HEADERS = TSealedEnvelope.h
 libSealedEnvelope_la_SOURCES = TSealedEnvelope.cxx TSealedEnvelope.h \
                                spc_b64.cxx spc_b64.h
 libSealedEnvelope_la_LIBADD =  -lz $(OPENSSL_LIBDIR) $(OPENSSL_LIBS) \
-                               $(LIBSOCKET) $(LIBNSL) $(LIBPTHREAD) -ldl
+                               $(LIBSOCKET) $(LIBNSL) $(LIBPTHREAD) \
+                               $(LIBCURL) -ldl
 libSealedEnvelope_la_LDFLAGS = -version-info 1:0:0
 
 libConvSealedEnvelope_la_SOURCES = TSealedEnvelope.cxx TSealedEnvelope.h \
                                    spc_b64.cxx spc_b64.h
 libConvSealedEnvelope_la_LIBADD =  -lz $(OPENSSL_LIBDIR) $(OPENSSL_LIBS) \
-                                   $(LIBSOCKET) $(LIBNSL) $(LIBPTHREAD) -ldl
+                                   $(LIBSOCKET) $(LIBNSL) $(LIBPTHREAD) \
+                                   $(LIBCURL) -ldl
 
 bin_PROGRAMS = encode decode 
 encode_SOURCES = encode.cxx
-encode_LDADD = libSealedEnvelope.la
+encode_LDADD = libSealedEnvelope.la $(LIBCURL)
 
 decode_SOURCES = decode.cxx
-decode_LDADD = libSealedEnvelope.la
+decode_LDADD = libSealedEnvelope.la $(LIBCURL)
 
 ## NOTE
 ## all of the things below are not portable and follow Andreas' old build file.

@@ -1,8 +1,7 @@
 AC_PREREQ(2.57)
 AC_INIT([tokenAuthz],[1.1.9],[andreas.joachim.peters@cern.ch,derek.feichtinger@cern.ch])
 AC_CONFIG_SRCDIR([TTokenAuthz.cxx])
-
-
+AC_CONFIG_MACRO_DIR([m4])
 
 # detect system type and define some specific settings
 AC_CANONICAL_TARGET
@@ -277,6 +276,13 @@ LDFLAGS="$XML2_LIBDIR $BASE_LIBDIR $LDFLAGS"
 AC_CHECK_LIB([xml2], [xmlReaderForMemory],
              [:],[ACX_MSG_ERROR([Failed compilation test for libxml2. You need at least version 2.6])])
 LDFLAGS="$LDFLAGS_BUP"
+
+# Check for libcurl
+AC_CHECK_LIB([curl], [curl_easy_init],
+             [
+	        AC_SUBST(LIBCURL,[-lcurl])
+             ],
+             [AC_MSG_ERROR(libcurl not found)])
 
 # pthreads differ on various platforms
 AC_CHECK_LIB([pthread],[pthread_join],
