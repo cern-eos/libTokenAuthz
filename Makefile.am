@@ -20,7 +20,7 @@ libTokenAuthz_la_SOURCES = TTokenAuthz.cxx TTokenAuthz.h
 libTokenAuthz_la_LIBADD =  SealedEnvelope/libConvSealedEnvelope.la \
                            AuthzXMLreader/libConvAuthzXMLreader.la \
                            $(LIBPTHREAD)
-libTokenAuthz_la_LDFLAGS = -version-info 1:0:0
+libTokenAuthz_la_LDFLAGS = -version-info 1:1:0
 
 bin_PROGRAMS = tokenauthztest
 tokenauthztest_SOURCES = tokenauthztest.cxx
