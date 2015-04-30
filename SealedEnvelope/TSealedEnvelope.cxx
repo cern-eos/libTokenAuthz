@@ -11,6 +11,7 @@
 #include <map>
 #include "stdint.h"
 #include <sys/time.h>
+#include <curl/curl.h>
 
 #ifdef WITHTHREADS
 pthread_mutex_t lock;
@@ -560,9 +561,6 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
     fEnvelopeHeader="";
     fEnvelopeBody="";
 
-    std::stringstream sin;
-    std::string line;
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     if (fVerbose) {
       std::cerr << "------------------------------------------------------------------------" << std::endl;
@@ -570,6 +568,47 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
       std::cerr << cryptedEnvelope << std::endl;
     }
 
+    // If authz is url encoded, then decode it
+    if (cryptedEnvelope.find("-----BEGIN%20SEALED%20CIPHER-----") == 0)
+    {
+      CURL*curl = curl_easy_init();
+
+      if (curl)
+      {
+        int out_len;
+        char* decoded_url = curl_easy_unescape(curl, cryptedEnvelope.c_str(), 0, &out_len);
+
+        if (decoded_url)
+        {
+          cryptedEnvelope.clear();
+          cryptedEnvelope = std::string(decoded_url, out_len);
+
+          if (fVerbose)
+          {
+            std::cerr << "Decoded authz" << std::endl
+                      << "------------------------------------------------------------------------"
+                      << std::endl
+                      << cryptedEnvelope << std::endl
+                      << "------------------------------------------------------------------------"
+                      << std::endl;
+          }
+
+          curl_free(decoded_url);
+        }
+
+        // Clean up
+        curl_easy_cleanup(curl);
+      }
+      else
+      {
+        fprintf(stderr, "SealedEnvelope::decodedEnvelope: failed to initialize "
+                "curl to url decode the authz\n");
+        return "";
+      }
+    }
+
+    std::stringstream sin;
+    std::string line;
     sin << cryptedEnvelope << std::endl;
 
     // parse the crypted Envelope
