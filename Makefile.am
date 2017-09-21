@@ -33,5 +33,6 @@ conf/TkAuthz.Authorization.test \
 tokenauthz.spec
 
 rpm:	dist
-	cp $(DIST_ARCHIVES) /usr/src/redhat/SOURCES/
-	rpmbuild -bb tokenauthz.spec
+	mkdir -p ./build/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+	cp $(DIST_ARCHIVES) ./build/SOURCES/
+	rpmbuild -bb --define "_rpmdir build/RPMS/" tokenauthz.spec
