@@ -9,7 +9,7 @@ License: OpenSource
 Group: CERN
 BuildRoot: %{_tmppath}/%{name}-root
 
-BuildRequires: libxml2-devel, libcurl-devel
+BuildRequires: libxml2-devel, libcurl-devel, openssl-devel
 
 %description
 This package contains the token authorization library.
