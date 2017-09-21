@@ -33,6 +33,6 @@ conf/TkAuthz.Authorization.test \
 tokenauthz.spec
 
 rpm:	dist
-	mkdir -p ./build/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-	cp $(DIST_ARCHIVES) ./build/SOURCES/
-	rpmbuild -bb --define "_rpmdir build/RPMS/" tokenauthz.spec
+	mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+	cp $(DIST_ARCHIVES) ~/rpmbuild/SOURCES/
+	rpmbuild -bb --define "_rpmdir ./RPMS/" --define "_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" tokenauthz.spec
