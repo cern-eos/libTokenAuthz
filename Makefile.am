@@ -35,4 +35,4 @@ tokenauthz.spec
 rpm:	dist
 	mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 	cp $(DIST_ARCHIVES) ~/rpmbuild/SOURCES/
-	rpmbuild -bb --define "_rpmdir ./RPMS/" --define "_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" tokenauthz.spec
+	rpmbuild -bb --define "debug_package %{nil}" --define "_rpmdir ./RPMS/" --define "_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" tokenauthz.spec
