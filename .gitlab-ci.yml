@@ -9,7 +9,7 @@ libTokenAuthz_cc7:
     - yum-builddep --nogpgcheck -y tokenauthz.spec
     - ./bootstrap.sh
     - make rpm
-    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/${BRANCH}-depend/el-7/x86_64
+    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/citrine-depend/el-7/x86_64
     - sudo -u stci -H mkdir -p $STORAGE_PATH
     - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
     - sudo -u stci -H createrepo --update -q $STORAGE_PATH
@@ -25,7 +25,7 @@ libTokenAuthz_slc6:
     - yum-builddep --nogpgcheck -y tokenauthz.spec
     - ./bootstrap.sh
     - make rpm
-    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/${BRANCH}-depend/el-6/x86_64
+    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/citrine-depend/el-6/x86_64
     - sudo -u stci -H mkdir -p $STORAGE_PATH
     - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
     - sudo -u stci -H createrepo --update -q $STORAGE_PATH
