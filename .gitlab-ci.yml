@@ -1,0 +1,34 @@
+stages:
+  - build
+
+libTokenAuthz_cc7:
+  stage: build
+  image: gitlab-registry.cern.ch/linuxsupport/cc7-base
+  script:
+    - yum install --nogpg -y gcc-c++ make rpm-build automake autoconf libtool sssd-client sudo createrepo
+    - yum-builddep --nogpgcheck -y tokenauthz.spec
+    - ./bootstrap.sh
+    - make rpm
+    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/${BRANCH}-depend/el-7/x86_64
+    - sudo -u stci -H mkdir -p $STORAGE_PATH
+    - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
+    - sudo -u stci -H createrepo --update -q $STORAGE_PATH
+  tags:
+    - docker-cc7
+  when: manual
+
+libTokenAuthz_slc6:
+  stage: build
+  image: gitlab-registry.cern.ch/linuxsupport/slc6-base
+  script:
+    - yum install --nogpg -y gcc-c++ make rpm-build tar automake autoconf libtool sssd-client sudo createrepo
+    - yum-builddep --nogpgcheck -y tokenauthz.spec
+    - ./bootstrap.sh
+    - make rpm
+    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/${BRANCH}-depend/el-6/x86_64
+    - sudo -u stci -H mkdir -p $STORAGE_PATH
+    - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
+    - sudo -u stci -H createrepo --update -q $STORAGE_PATH
+  tags:
+    - docker-slc6
+  when: manual
