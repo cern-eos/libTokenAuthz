@@ -1,6 +1,6 @@
 Summary: TTokenAuthz authorization library
 Name: tokenauthz
-Version: 1.2.0
+Version: 1.2.1
 Release: 1
 URL: none
 Source0: %{name}-%{version}.tar.gz
@@ -41,6 +41,7 @@ rm -rf $RPM_BUILD_ROOT
 - 1.1.6 installs into /usr/
 - 1.1.7 security fix for VO selection
 - 1.1.8 disable the hardcoded debug setting
+- 1.2.1 support for paths not startins with '/'
 %post
 %preun
 %postun
