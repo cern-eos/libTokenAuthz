@@ -365,8 +365,8 @@ TTokenAuthz::GetPath(const char* path) {
   std::string::size_type protdelimiter;
   std::string::size_type pathdelimiter;
   if ( (protdelimiter = spath.find("://")) != std::string::npos) {
-    if ( (pathdelimiter = (spath.substr(protdelimiter+3)).find("/") ) != std::string::npos) {
-      return path + protdelimiter + 3 + pathdelimiter;
+    if ( (pathdelimiter = (spath.substr(protdelimiter+3)).find("//") ) != std::string::npos) {
+      return path + protdelimiter + 3 + pathdelimiter+1;
     }
     return path;
   }
