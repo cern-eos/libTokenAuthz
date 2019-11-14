@@ -676,7 +676,8 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
       return std::string("");
     }
 
-    char sUUID[4096];  
+    std::string sUUID;
+    sUUID.resize(4096 + RSA_size(fEVP_RemotePrivateKey->pkey.rsa));
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     if (fVerbose) {
@@ -690,7 +691,7 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
     }
 
     // decrypt UUID/cipher with remote private key
-    int sUUIDcryptLen = RSA_private_decrypt(len, (uint_fast8_t*) sUUIDcrypt, (uint_fast8_t*) sUUID,  fEVP_RemotePrivateKey->pkey.rsa,RSA_PKCS1_PADDING); 
+    int sUUIDcryptLen = RSA_private_decrypt(len, (uint_fast8_t*) sUUIDcrypt, (uint_fast8_t*) sUUID.c_str(),  fEVP_RemotePrivateKey->pkey.rsa,RSA_PKCS1_PADDING); 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     if (fVerbose) {
@@ -708,7 +709,7 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
       std::cerr << lSealedEnvelope << std::endl;
     }
 
-    std::string fUUID(sUUID);
+    std::string fUUID(sUUID.c_str());
 
     free(sUUIDcrypt);
     
