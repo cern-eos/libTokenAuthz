@@ -14,7 +14,7 @@ libTokenAuthz_cc7:
     - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
     - sudo -u stci -H createrepo --update -q $STORAGE_PATH
   tags:
-    - docker-cc7
+    - cc7
   when: manual
 
 libTokenAuthz_slc6:
@@ -30,5 +30,5 @@ libTokenAuthz_slc6:
     - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
     - sudo -u stci -H createrepo --update -q $STORAGE_PATH
   tags:
-    - docker-slc6
+    - slc6
   when: manual
