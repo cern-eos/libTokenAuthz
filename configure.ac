@@ -1,5 +1,5 @@
 AC_PREREQ(2.57)
-AC_INIT([tokenAuthz],[1.2.2],[andreas.joachim.peters@cern.ch,derek.feichtinger@cern.ch])
+AC_INIT([tokenAuthz],[1.2.3],[andreas.joachim.peters@cern.ch,derek.feichtinger@cern.ch])
 AC_CONFIG_SRCDIR([TTokenAuthz.cxx])
 AC_CONFIG_MACRO_DIR([m4])
 

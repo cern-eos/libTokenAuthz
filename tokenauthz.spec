@@ -1,6 +1,6 @@
 Summary: TTokenAuthz authorization library
 Name: tokenauthz
-Version: 1.2.2
+Version: 1.2.3
 Release: 1
 URL: none
 Source0: %{name}-%{version}.tar.gz
@@ -43,6 +43,7 @@ rm -rf $RPM_BUILD_ROOT
 - 1.1.8 disable the hardcoded debug setting
 - 1.2.1 support for paths not startins with '/'
 - 1.2.2 revert wrong fix in 1.2.1
+- 1.2.3 fix potential buffer overflow in decodeEnvelope function
 %post
 %preun
 %postun
