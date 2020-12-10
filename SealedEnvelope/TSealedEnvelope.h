@@ -18,6 +18,8 @@
 #include <openssl/ssl.h>
 #include <openssl/md5.h>
 
+#include <atomic>
+
 #define EVP_MAX_IV_LENGTH_NEW 8
 
 /////////////////////////////////
@@ -39,7 +41,7 @@ class TSealedEnvelope {
   bool fCompress;
   bool fVerbose;
   bool fTrace;
-  bool fInitialized;
+  std::atomic<bool> fInitialized;
   std::string fCipheralgorithm;
   std::string fCreator;
   std::string fMD5SUM;
@@ -57,6 +59,12 @@ class TSealedEnvelope {
   EVP_PKEY* fEVP_LocalPublicKey;
   EVP_PKEY* fEVP_RemotePrivateKey;
   EVP_PKEY* fEVP_RemotePublicKey;
+
+
+  size_t fEVP_RemotePrivateKeySize;
+  size_t fEVP_RemotePublicKeySize;
+  size_t fEVP_LocalPublicKeySize;
+  size_t fEVP_LocalPrivateKeySize;
 
   std::string fUUID;
 

@@ -12,6 +12,7 @@
 #include "stdint.h"
 #include <sys/time.h>
 #include <curl/curl.h>
+#include <atomic>
 
 #ifdef WITHTHREADS
 pthread_mutex_t lock;
@@ -176,7 +177,8 @@ TSealedEnvelope::Initialize(int codingtype) {
       return 0;
     }
 
-    
+    fEVP_RemotePublicKeySize = RSA_size(fEVP_RemotePublicKey->pkey.rsa);
+    fEVP_LocalPrivateKeySize = RSA_size(fEVP_LocalPrivateKey->pkey.rsa);
   } else {
     fEVP_LocalPrivateKey = 0;
     fEVP_RemotePublicKey = 0;
@@ -202,6 +204,10 @@ TSealedEnvelope::Initialize(int codingtype) {
 #endif
       return 0;
     }
+
+    fEVP_RemotePrivateKeySize = RSA_size(fEVP_RemotePrivateKey->pkey.rsa);
+    fEVP_LocalPublicKeySize = RSA_size(fEVP_LocalPublicKey->pkey.rsa);
+    
   } else {
     fEVP_LocalPublicKey   = 0;
     fEVP_RemotePrivateKey = 0;
@@ -436,9 +442,9 @@ TSealedEnvelope::encodeEnvelope(std::string envelopein, int lifetime,std::string
 
   uint32_t*     siglen           = (uint32_t*) codebuffer; 
   uint_fast8_t* signature        = (uint_fast8_t*) codebuffer+sizeof(uint32_t);
-  uint32_t      signheaderlength = (RSA_size(fEVP_RemotePublicKey->pkey.rsa)) + sizeof(uint32_t);
+  uint32_t      signheaderlength = (fEVP_RemotePublicKeySize) + sizeof(uint32_t);
 
-  *siglen = RSA_size(fEVP_LocalPrivateKey->pkey.rsa);
+  *siglen = fEVP_LocalPrivateKeySize;
 
   // create the signature of the envelope
   uint_fast8_t hash[20];
@@ -677,7 +683,7 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
     }
 
     std::string sUUID;
-    sUUID.resize(4096 + RSA_size(fEVP_RemotePrivateKey->pkey.rsa));
+    sUUID.resize(4096 + fEVP_RemotePrivateKeySize);
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     if (fVerbose) {
@@ -726,9 +732,9 @@ TSealedEnvelope::decodeEnvelope(std::string cryptedEnvelope) {
     // convert back from a machine independent network address
     siglen = ntohl(siglen);
 
-    uint32_t signheaderlength = (RSA_size(fEVP_LocalPublicKey->pkey.rsa)) + sizeof(uint32_t);
+    uint32_t signheaderlength = fEVP_LocalPublicKeySize + sizeof(uint32_t);
     
-    if (siglen > (RSA_size(fEVP_LocalPublicKey->pkey.rsa))) {
+    if (siglen > fEVP_LocalPublicKeySize) {
       fprintf(stderr,"TSealedEnvelope::decodeEnvelope: illegal signature length %u found!\n",siglen);
       return "";
     }
