@@ -13,11 +13,9 @@ BuildRoot: %{_tmppath}/%{name}-root
 
 BuildRequires: libxml2-devel, libcurl-devel, openssl-devel
 
-%if "%{compiler}" == "gcc"
-    %if 0%{distribution} == 7
-    BuildRequires: devtoolset-8
-    BuildRequires: devtoolset-8-binutils-devel
-    %endif
+%if 0%{distribution} == 7
+BuildRequires: devtoolset-8
+BuildRequires: devtoolset-8-binutils-devel
 %endif
 
 %description
@@ -29,7 +27,9 @@ The software and RPM packaging was provided by Andreas.Joachim.Peters@cern.ch [C
 %prep
 %setup -q
 %build
-test -e /opt/rh/devtoolset-8/enable && source /opt/rh/devtoolset-8/enable
+%if 0%{?distribution} == 7
+  source /opt/rh/devtoolset-8/enable
+%endif
 ./configure  --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include
 make
 %install
