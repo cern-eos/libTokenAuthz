@@ -1,3 +1,5 @@
+%define distribution %(/usr/lib/rpm/redhat/dist.sh --distnum)
+
 Summary: TTokenAuthz authorization library
 Name: tokenauthz
 Version: 1.2.5
