@@ -1,6 +1,22 @@
 stages:
   - build
 
+libTokenAuthz_c8:
+  stage: build
+  image: gitlab-registry.cern.ch/dss/eos/prebuild-c8
+  script:
+    - yum install --nogpg -y gcc-c++ make rpm-build automake autoconf libtool sssd-client sudo createrepo
+    - yum-builddep --nogpgcheck -y tokenauthz.spec
+    - ./bootstrap.sh
+    - make rpm
+    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/citrine-depend/el-8/x86_64
+    - sudo -u stci -H mkdir -p $STORAGE_PATH
+    - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
+    - sudo -u stci -H createrepo --update -q $STORAGE_PATH
+  tags:
+    - c8
+  when: manual
+
 libTokenAuthz_cc7:
   stage: build
   image: gitlab-registry.cern.ch/linuxsupport/cc7-base
