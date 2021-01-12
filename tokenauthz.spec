@@ -10,8 +10,13 @@ Group: CERN
 BuildRoot: %{_tmppath}/%{name}-root
 
 BuildRequires: libxml2-devel, libcurl-devel, openssl-devel
-BuildRequires: devtoolset-8
-BuildRequires: devtoolset-8-binutils-devel
+
+%if "%{compiler}" == "gcc"
+    %if 0%{distribution} == 7
+    BuildRequires: devtoolset-8
+    BuildRequires: devtoolset-8-binutils-devel
+    %endif
+%endif
 
 %description
 This package contains the token authorization library.
@@ -22,7 +27,7 @@ The software and RPM packaging was provided by Andreas.Joachim.Peters@cern.ch [C
 %prep
 %setup -q
 %build
-source /opt/rh/devtoolset-8/enable
+test -e /opt/rh/devtoolset-8/enable && source /opt/rh/devtoolset-8/enable
 ./configure  --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include
 make
 %install

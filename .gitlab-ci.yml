@@ -33,18 +33,3 @@ libTokenAuthz_cc7:
     - cc7
   when: manual
 
-libTokenAuthz_slc6:
-  stage: build
-  image: gitlab-registry.cern.ch/linuxsupport/slc6-base
-  script:
-    - yum install --nogpg -y gcc-c++ make rpm-build tar automake autoconf libtool sssd-client sudo createrepo
-    - yum-builddep --nogpgcheck -y tokenauthz.spec
-    - ./bootstrap.sh
-    - make rpm
-    - STORAGE_PATH=/eos/project/s/storage-ci/www/eos/citrine-depend/el-6/x86_64
-    - sudo -u stci -H mkdir -p $STORAGE_PATH
-    - sudo -u stci -H cp -f RPMS/*.rpm $STORAGE_PATH
-    - sudo -u stci -H createrepo --update -q $STORAGE_PATH
-  tags:
-    - slc6
-  when: manual
