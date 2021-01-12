@@ -1,6 +1,6 @@
 Summary: TTokenAuthz authorization library
 Name: tokenauthz
-Version: 1.2.4
+Version: 1.2.5
 Release: 1
 URL: none
 Source0: %{name}-%{version}.tar.gz
@@ -10,6 +10,8 @@ Group: CERN
 BuildRoot: %{_tmppath}/%{name}-root
 
 BuildRequires: libxml2-devel, libcurl-devel, openssl-devel
+BuildRequires: devtoolset-8
+BuildRequires: devtoolset-8-binutils-devel
 
 %description
 This package contains the token authorization library.
@@ -20,6 +22,7 @@ The software and RPM packaging was provided by Andreas.Joachim.Peters@cern.ch [C
 %prep
 %setup -q
 %build
+source /opt/rh/devtoolset-8/enable
 ./configure  --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include
 make
 %install
@@ -45,6 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 - 1.2.2 revert wrong fix in 1.2.1
 - 1.2.3 fix potential buffer overflow in decodeEnvelope function
 - 1.2.4 make initialization atomic and avoid continous calling RSA_size
+- 1.2.5 add devtoolset-8 to build for atomic support
 %post
 %preun
 %postun
