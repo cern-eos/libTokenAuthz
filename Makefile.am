@@ -6,6 +6,8 @@
 ## Checked in by $Author: apeters $
 #######################################################################
 
+ACLOCAL_AMFLAGS = -I m4
+
 SUBDIRS = AuthzXMLreader SealedEnvelope .
 
 CPPFLAGS = -I /usr/kerberos/include -I$(top_srcdir)/SealedEnvelope  -I$(top_srcdir)/AuthzXMLreader \

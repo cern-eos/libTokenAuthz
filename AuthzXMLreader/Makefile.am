@@ -6,7 +6,7 @@
 ## Checked in by $Author: apeters $
 #######################################################################
 
-INCLUDES = $(XML2_INCDIR) $(BASE_INCDIR)
+AM_CPPFLAGS = $(XML2_INCDIR) $(BASE_INCDIR)
 lib_LTLIBRARIES = libAuthzXMLreader.la
 noinst_LTLIBRARIES =libConvAuthzXMLreader.la
 

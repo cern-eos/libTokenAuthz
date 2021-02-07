@@ -30,6 +30,7 @@ The software and RPM packaging was provided by Andreas.Joachim.Peters@cern.ch [C
 %if 0%{?distribution} == 7
   source /opt/rh/devtoolset-8/enable
 %endif
+./bootstrap.sh
 ./configure  --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include
 make
 %install
